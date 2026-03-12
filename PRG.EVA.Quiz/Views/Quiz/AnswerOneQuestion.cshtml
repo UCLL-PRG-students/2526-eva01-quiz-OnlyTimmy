@@ -1,6 +1,38 @@
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "Antwoord Resultaat";
 }
 
-<h1>Er liep iets mis    }-:</h1>
-<p>We vonden geen vraag of bijhorend antwoord. Probeer opnieuw.</p>
+@if (ViewBag.ErrorMessage != null)
+{
+    <h1>Er liep iets mis</h1>
+    <p>@ViewBag.ErrorMessage</p>
+    <p>We vonden geen vraag of bijhorend antwoord. Probeer opnieuw. }-8</p>
+}
+else
+{
+    <h1>Resultaat</h1>
+
+    <h2>Quiz info</h2>
+    <p>Game id: @ViewBag.GameId</p>
+    <p>Speler: @ViewBag.PlayerName</p>
+    <p>Aantal vragen: @ViewBag.QuestionCount</p>
+    <p>Aantal geldige pogingen: @ViewBag.NumberOfTrials</p>
+    <p>Aantal correcte antwoorden: @ViewBag.CorrectAnswers</p>
+
+    <h2>Beantwoorde vraag</h2>
+    <p>Vraag id: @ViewBag.QuestionId</p>
+    <p>Vraag: @ViewBag.QuestionDescription</p>
+
+    @if (ViewBag.IsCorrect == true)
+    {
+        <p>Je antwoord was correct. [-8</p>
+    }
+    else
+    {
+        <p>Je antwoord was fout. Better luck next time ]-8</p>
+    }
+}
+
+<p>
+    <a href="/Quiz/ShowAllQuestions">Terug naar alle vragen</a>
+</p>

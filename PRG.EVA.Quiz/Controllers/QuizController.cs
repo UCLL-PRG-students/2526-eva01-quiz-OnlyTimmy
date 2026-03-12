@@ -5,7 +5,10 @@ namespace PRG.EVA.Quiz.Controllers;
 
 public class QuizController : Controller
 {
-    private static List<Question> _questions = new List<Question> {
+    private static Game _quiz = new Game(
+        1,
+        "Player1",
+        new List<Question> {
         new Question(1,"Wat is de kleur van de lucht?",
             new List<Answer> {
                 new Answer{Id=1,IsCorrect=false,Description="Groen"},
@@ -41,45 +44,49 @@ public class QuizController : Controller
                 new Answer{Id=4,IsCorrect=false,Description="5"}
             },
             Difficulty.Easy)
-    };
+    });
 
     public IActionResult ShowAllQuestions()
     {
-        return View(_questions);
+        return View(_quiz);
     }
 
     public IActionResult AnswerOneQuestion(int questionId, int answerId)
     {
-        Question? question = _questions.Find(q => q.Id == questionId);
-
+        Question? question = _quiz.Questions.Find(q => q.Id == questionId);
         if (question == null)
         {
+            ViewBag.ErrorMessage = "Vraag niet gevonden.";
             return View();
         }
-
         Answer? answer = question.Answers.Find(a => a.Id == answerId);
-
         if (answer == null)
         {
+            ViewBag.ErrorMessage = "Antwoord niet gevonden.";
             return View();
         }
-
-        if (answer.IsCorrect)
+        _quiz.NumberOfTrials++;
+        bool isCorrect = answer.IsCorrect;
+        if (isCorrect)
         {
             question.IsAnsweredCorrect = true;
-            return RedirectToAction("Congratulations");
         }
+        int correctAnswers = _quiz.Questions.Count(q => q.IsAnsweredCorrect);
 
-        return RedirectToAction("Miss");
-    }
+        ViewBag.GameId = _quiz.Id;
+        ViewBag.PlayerName = _quiz.PlayerName;
+        ViewBag.QuestionCount = _quiz.Questions.Count;
+        ViewBag.NumberOfTrials = _quiz.NumberOfTrials;
+        ViewBag.CorrectAnswers = correctAnswers;
 
-    public IActionResult Congratulations()
-    {
+        ViewBag.QuestionId = question.Id;
+        ViewBag.QuestionDescription = question.Description;
+        ViewBag.IsCorrect = isCorrect;
+
+        TempData["LastAnsweredQuestion"] = question.Description;
+        TempData["LastAnswerFeedback"] = isCorrect ? "Juist beantwoord" : "Fout beantwoord";
+
         return View();
     }
 
-    public IActionResult Miss()
-    {
-        return View();
-    }
 }

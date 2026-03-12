@@ -1,13 +1,22 @@
-@model List<Question>
+@model PRG.EVA.Quiz.Models.Game
 
 @{
     ViewData["Title"] = "Alle Vragen";
 }
 
+@if (TempData["LastAnsweredQuestion"] != null && TempData["LastAnswerFeedback"] != null)
+{
+    <div style="border:1px solid gray; padding:20px; margin-bottom:20px; border-radius:10px;">
+        <h3>Vraag die je laatst beantwoordde:</h3>
+        <p>@TempData["LastAnsweredQuestion"]</p>
+        <p>@TempData["LastAnswerFeedback"]</p>
+    </div>
+}
+
 <h1>Alle Vragen</h1>
 
 <ul>
-    @foreach (var question in Model)
+    @foreach (var question in Model.Questions)
     {
         <li>
             <strong>Vraag @question.Id - @question.Description</strong>
