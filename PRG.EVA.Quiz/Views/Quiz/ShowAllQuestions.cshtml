@@ -1,0 +1,30 @@
+@model List<Question>
+
+@{
+    ViewData["Title"] = "Alle Vragen";
+}
+
+<h1>Alle Vragen</h1>
+
+<ul>
+    @foreach (var question in Model)
+    {
+        <li>
+            <strong>Vraag @question.Id - @question.Description</strong>
+
+            <ul>
+                <li>Level: @question.Level</li>
+                <li>Al juist beantwoord: @(question.IsAnsweredCorrect ? "Ja" : "Nee")</li>
+                <li>Mogelijke antwoorden:</li>
+                    @foreach (var answer in question.Answers)
+                    {
+                        <div>
+                            <a href="/Quiz/AnswerOneQuestion?questionId=@question.Id&answerId=@answer.Id">
+                                @answer.Id - @answer.Description
+                            </a>
+                        </div>
+                    }
+            </ul>
+        </li>
+    }
+</ul>
