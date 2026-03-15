@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Nieuwe Game";
+}
+
+<h2>Start een nieuwe quiz</h2>
+
+<form asp-action="LoadNewGame" method="post">
+
+    <p>Kies een moeilijkheidsgraad:</p>
+
+    <div>
+        <input type="radio" name="level" value="" checked />
+        <label>Alle niveaus</label>
+    </div>
+
+    <div>
+        <input type="radio" name="level" value="Easy" />
+        <label>Easy</label>
+    </div>
+
+    <div>
+        <input type="radio" name="level" value="Medium" />
+        <label>Medium</label>
+    </div>
+
+    <div>
+        <input type="radio" name="level" value="Hard" />
+        <label>Hard</label>
+    </div>
+
+    <br />
+
+    <button type="submit">Nieuwe game starten</button>
+
+</form>

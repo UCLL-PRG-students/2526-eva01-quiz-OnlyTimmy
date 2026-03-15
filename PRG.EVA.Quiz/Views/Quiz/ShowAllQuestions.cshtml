@@ -12,6 +12,12 @@
         <p>@TempData["LastAnswerFeedback"]</p>
     </div>
 }
+@if (TempData["NewGameMessage"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["NewGameMessage"]
+    </div>
+}
 
 <h1>Alle Vragen</h1>
 
